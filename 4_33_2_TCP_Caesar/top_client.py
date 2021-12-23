@@ -9,11 +9,11 @@ while True:
             break
 
         soc = socket(AF_INET, SOCK_STREAM)
-        soc.connect(('192.168.0.101', 4000))
+        soc.connect(('localhost', 4000))
         soc.send(key.encode())
-
+        soc.close()
         soc = socket(AF_INET, SOCK_STREAM)
-        soc.connect(('192.168.0.101', 4000))
+        soc.connect(('localhost', 4000))
         soc.send(message.encode())
 
         server_resp = soc.recv(1000)

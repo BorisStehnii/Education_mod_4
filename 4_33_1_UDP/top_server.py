@@ -7,9 +7,6 @@ try:
     server.bind(addr)
 
     while True:
-        # c_sock, c_addr = soc.accept()
-        #
-        # c_message = c_sock.recv(1000).decode()
         c_message, c_addr = server.recvfrom(1024)
 
         print(c_addr, ': ', c_message.decode())
