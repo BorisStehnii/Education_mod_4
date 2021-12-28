@@ -4,10 +4,10 @@ import requests
 from pprint import pprint
 
 
-def request_url(url_, params_, text_):
+def request_url(url_, params_, text_, lock_):
 
     resp = requests.get(url_+f'?q={text_}', params=params_)
-
+    lock_.acquire()
     data = resp.json()['data']
     coment = {text_: [com.get('body') for com in data]}
 
@@ -21,6 +21,7 @@ def request_url(url_, params_, text_):
     data_.update(coment)
     with open('coment_text_mp.json', 'w') as file:
         json.dump(data_, file, indent=4)
+    lock_.release()
 
 
 if __name__ == "__main__":
@@ -32,8 +33,9 @@ if __name__ == "__main__":
         'sort_type': 'created_utc',
         'size': 100
     }
+    lock = mp.Lock()
     with mp.Pool() as pool:
 
         for text in text_request:
-            pool.apply(request_url, args=(url_add, params, text))
+            pool.apply(request_url, args=(url_add, params, text, lock))
 

@@ -50,18 +50,20 @@ if __name__ == "__main__":
     print(time.time() - start_time)
     print(dict_1)
 
+
     start_time = time.time()
     dict_2 = dict()
-    thread_pool = cf.ThreadPoolExecutor(max_workers=4)
-    # Нужен ли лок???
-    futures = []
-    for num in NUMBERS:
-        futures.append(thread_pool.submit(dict_prim_number, dict_=dict_2, n=num))
+    with cf.ThreadPoolExecutor(max_workers=4) as thread_pool:
+        # Нужен ли лок???
+        futures = []
+        for num in NUMBERS:
+            futures.append(thread_pool.submit(dict_prim_number, dict_=dict_2, n=num))
 
-    for future in cf.as_completed(futures):
-        future.result()
+        for future in cf.as_completed(futures):
+            pass
+            # future.result()
 
-    thread_pool.shutdown()
+    # thread_pool.shutdown()
     print(time.time() - start_time)
     print(dict_2)
 
