@@ -18,12 +18,12 @@ class Counter(threading.Thread):
 
     def run(self):
         x = 0
-        # self.lock.acquire()
+        self.lock.acquire()
         for _ in range(self.__class__.rounds):
 
             self.__class__.counter += 1
             x += 1
-        # self.lock.release()
+        self.lock.release()
         return x
 
     def join(self, timeout=None):
@@ -41,6 +41,7 @@ for i in range(2):
 
 for thr_ in threads:
     print(thr_.join())
+
 
 
 print(Counter.counter)

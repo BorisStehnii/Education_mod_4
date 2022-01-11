@@ -18,6 +18,6 @@ if __name__ == "__main__":
     soc.listen(1)
 
     with mp.Pool() as pool:
-        c_sock, c_add = soc.accept()
         while True:
+            c_sock, c_add = soc.accept()
             pool.apply(client_soc_, args=(c_sock, c_add))
